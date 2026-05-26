@@ -51,7 +51,8 @@ git --version
 > **Screenshot 1:** Take a screenshot of your terminal showing both
 > successful version checks and insert it here.
 >
-> `[insert screenshot]`
+> `[insert screenshot]`<img width="800" height="73" alt="DBMS5_1" src="https://github.com/user-attachments/assets/c222ce34-d8d1-4cfa-8f62-706693d7a20d" />
+
 
 ---
 
@@ -110,22 +111,22 @@ for each temporal attribute.
 
 | Attribute              | Your Type         | Justification |
 |------------------------|-------------------|---------------|
-| isbn                   |                   |               |
-| titel                  |                   |               |
-| erscheinungsjahr       |                   |               |
-| verlag                 |                   |               |
-| tagesgebuehr           |                   |               |
-| exemplar_id            |                   |               |
-| standort               |                   |               |
-| mitglied_id            |                   |               |
-| nachname               |                   |               |
-| vorname                |                   |               |
-| geburtsdatum           |                   |               |
-| email                  |                   |               |
-| beitritt_datum         |                   |               |
-| ausleihe_id            |                   |               |
-| ausleihe_datum         |                   |               |
-| rueckgabe_datum        |                   |               |
+| isbn                   |UNSINED NUMERIC(13,0) |whole Number, positiv, Bigger then INTEGER|
+| titel                  |TEXT               |               |
+| erscheinungsjahr       |YEAR               |Year between 1901 and 2155 should be ok|
+| verlag                 |TEXT               |               |
+| tagesgebuehr           |Numeric(2,2)       |Money, shouldnt be over 100|
+| exemplar_id            |UNSINED INTEGER    | whole Number, positiv |
+| standort               |TEXT               |               |
+| mitglied_id            |UNSINED INTEGER    | whole Number, positiv |
+| nachname               |TEXT               |               |
+| vorname                |TEXT               |               |
+| geburtsdatum           |DATE               |               |
+| email                  |TEXT               |               |
+| beitritt_datum         |DATE               |               |
+| ausleihe_id            |UNSINED INTEGER    | whole Number, positiv |
+| ausleihe_datum         |DATE               |               |
+| rueckgabe_datum        |DATE               |               |
 
 ### Questions for Task 1
 
@@ -139,13 +140,13 @@ for a lending fee calculation. Which type must be used instead?
 in this specific context. Is `NULL` the same as "zero days"? Justify with
 reference to the three-valued logic of SQL.
 
-> *Your answer:*
+> *Your answer:* NULL: there is no return Date; zero Days: Return Date is today
 
 **Question 1.3:** `beitritt_datum` should default to today's date when no value
 is provided. Write the `DEFAULT` expression you would use and explain why this
 is preferable to always supplying the date explicitly in the application.
 
-> *Your answer:*
+> *Your answer:* DEFAULT CURRENT_DATE, Consistency across the Database
 
 ---
 
@@ -242,7 +243,8 @@ sqlite3 bibliothek.db ".schema"
 > **Screenshot 2:** Take a screenshot showing the `.tables` and `.schema`
 > output in your terminal.
 >
-> `[insert screenshot]`
+> `[insert screenshot]`<img width="609" height="685" alt="DBMS5_2" src="https://github.com/user-attachments/assets/59602ab2-b720-4eb0-b3e6-8ed642efdca4" />
+
 
 ### Task 2c – Test Constraints
 
@@ -268,9 +270,9 @@ INSERT INTO ausleihe VALUES (1, 1, 1, '2026-05-10', '2026-05-01');
 
 > *Describe the error or result for each test:*
 >
-> - Test A:
-> - Test B:
-> - Test C:
+> - Test A: Gets inserted despite negative tagesgebühr
+> - Test B:returns Error Constraint failed
+> - Test C:returns Error Constraint failed
 
 ### Questions for Task 2
 
@@ -278,19 +280,19 @@ INSERT INTO ausleihe VALUES (1, 1, 1, '2026-05-10', '2026-05-01');
 constraint rather than a column constraint. Why is a column constraint
 insufficient here?
 
-> *Your answer:*
+> *Your answer:* column  constraints can only access this column, ausleihe_datum is in another column
 
 **Question 2.2:** You chose `ON DELETE RESTRICT` for all foreign keys.
 Describe a realistic alternative: for which relationship would `ON DELETE
 CASCADE` be appropriate instead, and why?
 
-> *Your answer:*
+> *Your answer:* For Copies of a book, if a book ceases to exist, the copies should to
 
 **Question 2.3:** `email` is declared `UNIQUE`. According to the SQL standard,
 how many `NULL` values may a `UNIQUE` column contain? Explain using the
 three-valued logic of SQL.
 
-> *Your answer:*
+> *Your answer:* Multiple, NULL = NULL -> Unknown
 
 ---
 
